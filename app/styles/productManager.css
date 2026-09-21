@@ -1,0 +1,62 @@
+/* Contenedor principal */
+.section {
+    background-color: #4a4a4a;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.greatContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 30px; /* Espacio entre el panel y el carrusel */
+    width: 100%;
+    align-items: flex-start;
+}
+
+/* Diseño moderno del panel de inputs */
+.productManager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    
+    width: 250px;
+    padding: 25px 20px;
+    box-sizing: border-box;
+    flex-shrink: 0; /* Evita que el panel se encoja */
+}
+
+/* Estilos de los inputs */
+.inputsManager {
+    width: 100%;
+    padding: 10px;
+    background-color: #fbfbfb;
+    color: #333333;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.inputsManager:focus {
+    border-color: #888888;
+}
+
+/* Contenedor y diseño del botón */
+.buttonDiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+
