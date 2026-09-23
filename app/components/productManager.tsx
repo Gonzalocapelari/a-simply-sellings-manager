@@ -1,8 +1,7 @@
 'use client'
-import { ReactHTMLElement, useState } from "react"
+import { useState } from "react"
 import Product from "@/app/components/productComponent"
 import "@/app/styles/productManager.css"
-import { Titan_One } from "next/font/google";
 // import {Storingmanager} from "@app/components/Storingmanager"
 interface productItem {
 p_name:string,
@@ -32,15 +31,22 @@ const [Cards, setCards] = useState<productItem[]>([]);
 
 function handleInputs(event:React.SubmitEvent<HTMLFormElement>){
     event.preventDefault();
-    if(!title.trim()) return;
+    const numericPrice = Number(price);
+    const numericBasePrice = Number(bprice);
+    const numericStock = Number(stock);
+
+    if (!title.trim() || !description.trim()) return;
+    if (!price.trim() || !Number.isFinite(numericPrice) || numericPrice < 0) return;
+    if (!bprice.trim() || !Number.isFinite(numericBasePrice) || numericBasePrice < 0) return;
+    if (!stock.trim() || !Number.isInteger(numericStock) || numericStock < 0) return;
 
 id++;
   const newProduct: productItem = {
     p_name: title,
-    p_price: Number(price),
-    p_bprice: Number(bprice),
+    p_price: numericPrice,
+    p_bprice: numericBasePrice,
     p_description: description,
-    p_stock: Number(stock),
+    p_stock: numericStock,
   };
 
 setCards((prevProducts) => {
