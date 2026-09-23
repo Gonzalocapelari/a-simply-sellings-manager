@@ -13,6 +13,7 @@ imagePath:string,
 }
 
 export default function Product({id,name,description,price,baseprice,imagePath}:propsSacados){
+  imagePath = "testimage.jpg"
 return(
   <div className="bg-white border rounded-lg overflow-hidden">
     <div className="flex flex-col flex-1 justify-center items-center p-1 text-center">
