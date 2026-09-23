@@ -1,30 +1,49 @@
 
-interface propsForProducts { // I GUESS ITS JUST FOR DEFINING TYPES
-id: number,
-name: string;
-des: string;
-price: number;
-costprice: number;
-stock: number;
-imagePath: string;
-shown: boolean;
+export interface productProps {
+	id: number;
+	p_name: string;
+	p_price: number;
+	p_bprice: number;
+	p_description: string;
+	p_stock: number;
 }
-export default function Storingmanager({id, name, des, price, costprice, stock, imagePath}:propsForProducts){
-// 1. Obj definition to store
-const objectToSave = {
-id: id,
-name: name,
-description: des,
-price: price,
-costPrice: costprice,
-stock: stock,
-imagePath: imagePath
-};
 
-// 2. Convert to JSON and save
-localStorage.setItem("productData", JSON.stringify(objectToSave));
-//------------------------------------------------------------------------
-// // 3. Read and parse back into an object
-// const savedData = localStorage.getItem("productData");
-// const parsedSettings = savedData ? JSON.parse(savedData) : null;
+const STORAGE_KEY = "productData";
+
+export function storingManager(product: productProps): void {
+	const savedData = localStorage.getItem(STORAGE_KEY);
+    
+	let savedCards: productProps[] = [];
+	if (savedData) {
+		savedCards = JSON.parse(savedData);
+	}
+
+	savedCards.push(product);
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(savedCards));
+}
+
+export function removeProduct(id: number): void {
+	const savedData = localStorage.getItem(STORAGE_KEY);
+	let savedCards: productProps[] = [];
+
+	if (savedData) {
+		savedCards = JSON.parse(savedData);
+	}
+
+	const remainingCards = savedCards.filter((product) => product.id !== id);
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(remainingCards));
+}
+
+export function load_Cards(): productProps[] {
+	const savedData = localStorage.getItem(STORAGE_KEY);
+	let savedCards: Partial<productProps>[] = [];
+
+	if (savedData) {
+		savedCards = JSON.parse(savedData);
+	}
+
+	return savedCards.map((product, index) => ({
+		...product,
+		id: product.id ?? index + 1,
+	})) as productProps[];
 }

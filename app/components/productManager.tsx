@@ -1,17 +1,9 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Product from "@/app/components/productComponent"
 import "@/app/styles/productManager.css"
-// import {Storingmanager} from "@app/components/Storingmanager"
-interface productItem {
-p_name:string,
-p_price:number,
-p_bprice:number,
-p_description:string,
-p_stock:number,
-}
+import {load_Cards, removeProduct, storingManager, type productProps} from "../components/storingManager"
 
-let id:number = 0;
 export default function Productmanager(){
     //for INPUTS
 const [title, setTitle] = useState(''); 
@@ -24,13 +16,27 @@ const [stock, setStock] = useState('');
 
 
 // so all those are for inputs and now i gotta create one useState for an array of productItem(s)
-const [Cards, setCards] = useState<productItem[]>([]);
+const [Cards, setCards] = useState<productProps[]>([]);
 
+useEffect(() => {
+  setCards(load_Cards());
+}, []);
 
+function handleRemove(id: number) {
+  removeProduct(id);
+  setCards((prevProducts) => {
+    return prevProducts.filter((product) => product.id !== id);
+  });
+}
+function getNextId(cards: productProps[]): number {
+    if (cards.length === 0) return 1;
 
-
+    const ids = cards.map(p => p.id);
+    return Math.max(...ids) + 1;
+}
 function handleInputs(event:React.SubmitEvent<HTMLFormElement>){
     event.preventDefault();
+    
     const numericPrice = Number(price);
     const numericBasePrice = Number(bprice);
     const numericStock = Number(stock);
@@ -40,14 +46,16 @@ function handleInputs(event:React.SubmitEvent<HTMLFormElement>){
     if (!bprice.trim() || !Number.isFinite(numericBasePrice) || numericBasePrice < 0) return;
     if (!stock.trim() || !Number.isInteger(numericStock) || numericStock < 0) return;
 
-id++;
-  const newProduct: productItem = {
+  const newProduct: productProps = {
+    id: getNextId(Cards),
     p_name: title,
     p_price: numericPrice,
     p_bprice: numericBasePrice,
     p_description: description,
     p_stock: numericStock,
   };
+
+storingManager(newProduct);
 
 setCards((prevProducts) => {
     return [...prevProducts, newProduct];
@@ -80,8 +88,8 @@ setStock('');
    </div>
     <div className="section">
             {
-                     Cards.map((prod, index)=>( //need image path still
-                         <Product key={index} id={id} name={prod.p_name} description={prod.p_description} price={prod.p_price} baseprice={prod.p_bprice} imagePath={""} />
+                     Cards.map((prod)=>(
+                       <Product key={prod.id} id={prod.id} name={prod.p_name} description={prod.p_description} price={prod.p_price} baseprice={prod.p_bprice} imagePath={""} onRemove={handleRemove} />
                 ))
             }
     </div>

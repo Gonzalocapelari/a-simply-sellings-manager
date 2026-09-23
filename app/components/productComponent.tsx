@@ -10,9 +10,10 @@ description:string,
 price:number,
 baseprice:number,
 imagePath:string,
+onRemove:(id:number) => void,
 }
 
-export default function Product({id,name,description,price,baseprice,imagePath}:propsSacados){
+export default function Product({id,name,description,price,baseprice,imagePath,onRemove}:propsSacados){
   imagePath = "testimage.jpg"
 return(
   <div className="bg-white border rounded-lg overflow-hidden">
@@ -30,6 +31,7 @@ return(
         <span className="ml-2 text-gray-600 text-sm">{description}</span>
         <span className="ml-2 text-gray-300 text-sm">{id}</span>
       </div>
+      <button type="button" onClick={() => onRemove(id)}>REMOVE</button>
     </div>
   </div>
 );
