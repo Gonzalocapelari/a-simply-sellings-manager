@@ -14,24 +14,33 @@ onRemove:(id:number) => void,
 }
 
 export default function Product({id,name,description,price,baseprice,imagePath,onRemove}:propsSacados){
-  imagePath = "testimage.jpg"
+  const resolvedImagePath = imagePath && imagePath.length > 0 ? imagePath : "/testimage.jpg";
 return(
-  <div className="bg-white border rounded-lg overflow-hidden">
-    <div className="flex flex-col flex-1 justify-center items-center p-1 text-center">
-    <h4 className="font-semibold text-lg leading-tight truncate">{name}</h4>
-   <img className="relative w-40 h-30" src={imagePath} alt="imagen del producto" />
+  <div className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col justify-between h-full">
+    <div className="flex flex-col flex-1 justify-center items-center p-3 text-center bg-gray-50 border-b border-gray-100">
+      <h4 className="font-semibold text-base text-gray-900 leading-tight truncate w-full mb-2" title={name}>{name}</h4>
+      <img className="w-36 h-28 object-cover rounded shadow-sm" src={resolvedImagePath} alt={name || "Product image"} />
     </div>
-    <div className="p-3">
-      <div className="text-gray-600 text-xs uppercase font-semibold tracking-wide">
+    <div className="p-4 flex flex-col justify-between flex-1">
+      <div>
+        <div className="flex items-baseline justify-between mb-1">
+          <span className="text-xl font-bold text-gray-900">${price}</span>
+          <span className="text-xs text-gray-500 font-medium">Cost: ${baseprice}</span>
+        </div>
+        <div className="mt-1 text-gray-600 text-xs line-clamp-2 min-h-[32px]">
+          {description}
+        </div>
+        <div className="mt-1 text-right">
+          <span className="text-[10px] text-gray-400 font-mono">ID: #{id}</span>
+        </div>
       </div>
-      <div className="mt-1 text-bold">${price}<span className="text-gray-600 text-sm">
-        <div className="text-lg">{baseprice}</div></span>
-      </div>
-      <div className="mt-2 flex items-center">
-        <span className="ml-2 text-gray-600 text-sm">{description}</span>
-        <span className="ml-2 text-gray-300 text-sm">{id}</span>
-      </div>
-      <button type="button" onClick={() => onRemove(id)}>REMOVE</button>
+      <button
+        type="button"
+        onClick={() => onRemove(id)}
+        className="mt-3 w-full py-1.5 px-3 bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-medium text-xs rounded transition-colors cursor-pointer shadow-sm"
+      >
+        REMOVE
+      </button>
     </div>
   </div>
 );

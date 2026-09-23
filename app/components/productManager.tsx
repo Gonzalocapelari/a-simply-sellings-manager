@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react"
-import Product from "@/app/components/productComponent"
+import ProductCarousel from "./ProductCarousel"
 import "@/app/styles/productManager.css"
 import {load_Cards, removeProduct, storingManager, type productProps} from "../components/storingManager"
 
@@ -19,7 +19,9 @@ const [stock, setStock] = useState('');
 const [Cards, setCards] = useState<productProps[]>([]);
 
 useEffect(() => {
-  setCards(load_Cards());
+  queueMicrotask(() => {
+    setCards(load_Cards());
+  });
 }, []);
 
 function handleRemove(id: number) {
@@ -74,28 +76,24 @@ setStock('');
 //  i called events differently because it makes fun to me
     return(<div className="greatContainer">
     <div className="productManager">
-        <form onSubmit={handleInputs}> 
-    <input required value={title} type="text" placeholder="product tittle or name" onChange={(event)=>setTitle(event.target.value)}/>
-    <input required value={price} type="text" placeholder="selling price" onChange={(e)=>setPrice(e.target.value)}/>
-    <input required value={bprice} type="text" placeholder="base price" onChange={(x)=>setBprice(x.target.value)}/>
-    <input required value={description} type="text" placeholder="description" onChange={(x)=>setDescription(x.target.value)}/>
-    <input required value={stock} type="text" placeholder="actual stock" onChange={(x)=>setStock(x.target.value)}/>
+        <form onSubmit={handleInputs} className="w-full flex flex-col gap-3"> 
+    <input className="inputsManager" required value={title} type="text" placeholder="Product title or name" onChange={(event)=>setTitle(event.target.value)}/>
+    <input className="inputsManager" required value={price} type="text" placeholder="Selling price ($)" onChange={(e)=>setPrice(e.target.value)}/>
+    <input className="inputsManager" required value={bprice} type="text" placeholder="Base cost price ($)" onChange={(x)=>setBprice(x.target.value)}/>
+    <input className="inputsManager" required value={description} type="text" placeholder="Product description" onChange={(x)=>setDescription(x.target.value)}/>
+    <input className="inputsManager" required value={stock} type="text" placeholder="Stock quantity" onChange={(x)=>setStock(x.target.value)}/>
   
      <div className="buttonDiv">
-    <button type="submit" className="px-6 py-2.5 rounded-full bg-zinc-100 text-zinc-600 font-medium tracking-wide transition-all duration-200 ease-out hover:bg-zinc-200 hover:text-zinc-800 hover:-translate-y-0.5 hover:shadow-md hover:shadow-zinc-200/50 active:duration-75 active:scale-[0.98] active:translate-y-0 active:shadow-none">Add Product</button>
+    <button type="submit" className="w-full py-2.5 px-4 rounded-lg bg-zinc-900 text-white font-medium text-sm tracking-wide transition-all duration-200 hover:bg-zinc-800 active:scale-[0.98] shadow-sm cursor-pointer">Add Product</button>
      </div> </form>
 
    </div>
     <div className="section">
-            {
-                     Cards.map((prod)=>(
-                       <Product key={prod.id} id={prod.id} name={prod.p_name} description={prod.p_description} price={prod.p_price} baseprice={prod.p_bprice} imagePath={""} onRemove={handleRemove} />
-                ))
-            }
+      <ProductCarousel products={Cards} onRemove={handleRemove} />
     </div>
 
    
-   
+ 
      </div>);
 }
 

@@ -1,6 +1,5 @@
 // 'use client'
 //LOOOL A component was suspended by an uncached promise. Creating promises inside a Client Component or hook is not yet supported, except via a Suspense-compatible library or framework.
-import Product from "../components/productComponent";
 // import {ProductClass} from "@/app/product";
 import Productmanager from "../components/productManager";
 
@@ -21,8 +20,8 @@ export default async function Manager({ params }: Props) {
 
   if(stringId == "manager") {
   return (
-    <main>
-        <div className="h-screen bg-gray-200 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <main className="min-h-screen bg-zinc-100 p-6 flex justify-center">
+        <div className="w-full max-w-7xl">
             <Productmanager></Productmanager>
         </div>
     </main>

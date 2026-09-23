@@ -1,22 +1,33 @@
 /* Contenedor principal */
 .section {
-    background-color: #4a4a4a;
+    background-color: #27272a;
     width: 100%;
+    min-width: 0; /* Crucial for flex child horizontal scrolling */
+    flex: 1;
     position: relative;
     z-index: 1;
-    padding: 30px;
+    padding: 24px;
     box-sizing: border-box;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
 }
 
 .greatContainer {
     display: flex;
     flex-direction: row;
-    gap: 30px; /* Espacio entre el panel y el carrusel */
+    gap: 24px;
     width: 100%;
     align-items: flex-start;
+    box-sizing: border-box;
 }
 
-/* Diseño moderno del panel de inputs */
+@media (max-width: 768px) {
+    .greatContainer {
+        flex-direction: column;
+    }
+}
+
+/* Panel de inputs */
 .productManager {
     display: flex;
     flex-direction: column;
@@ -24,31 +35,40 @@
     gap: 15px;
     
     background-color: #ffffff;
-    border: 1px solid #eaeaea;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e4e4e7;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     
-    width: 250px;
-    padding: 25px 20px;
+    width: 280px;
+    padding: 24px 20px;
     box-sizing: border-box;
     flex-shrink: 0; /* Evita que el panel se encoja */
+}
+
+@media (max-width: 768px) {
+    .productManager {
+        width: 100%;
+    }
 }
 
 /* Estilos de los inputs */
 .inputsManager {
     width: 100%;
-    padding: 10px;
+    padding: 10px 14px;
     background-color: #fbfbfb;
-    color: #333333;
-    border: 1px solid #d1d1d1;
+    color: #18181b;
+    border: 1px solid #d4d4d8;
     border-radius: 8px;
     box-sizing: border-box;
+    font-size: 0.875rem;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
 }
 
 .inputsManager:focus {
-    border-color: #888888;
+    border-color: #4f46e5;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
 /* Contenedor y diseño del botón */
@@ -56,7 +76,40 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 
+/* Carousel specific styling */
+.carousel-container {
+    width: 100%;
+    position: relative;
+    outline: none;
+}
 
+.carousel-container:focus-visible {
+    outline: 2px solid #6366f1;
+    border-radius: 12px;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar across browsers while maintaining functionality */
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-track {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.carousel-slide {
+    scroll-snap-align: start;
+}
