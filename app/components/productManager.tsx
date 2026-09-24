@@ -31,10 +31,16 @@ function handleRemove(id: number) {
   });
 }
 function getNextId(cards: productProps[]): number {
-    if (cards.length === 0) return 1;
+    let maxId = 0;
 
-    const ids = cards.map(p => p.id);
-    return Math.max(...ids) + 1;
+    
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].id > maxId) {
+            maxId = cards[i].id; //finding max
+        }
+    }
+
+    return maxId + 1; // then max=1 will be next ID.
 }
 function handleInputs(event:React.SubmitEvent<HTMLFormElement>){
     event.preventDefault();

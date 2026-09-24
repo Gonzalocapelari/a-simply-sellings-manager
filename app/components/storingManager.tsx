@@ -1,4 +1,3 @@
-
 export interface productProps {
 	id: number;
 	p_name: string;
@@ -36,14 +35,6 @@ export function removeProduct(id: number): void {
 
 export function load_Cards(): productProps[] {
 	const savedData = localStorage.getItem(STORAGE_KEY);
-	let savedCards: Partial<productProps>[] = [];
 
-	if (savedData) {
-		savedCards = JSON.parse(savedData);
-	}
-
-	return savedCards.map((product, index) => ({
-		...product,
-		id: product.id ?? index + 1,
-	})) as productProps[];
+	return (savedData) ? JSON.parse(savedData) as productProps[] : []; //simplier as 
 }
